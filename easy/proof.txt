@@ -1,0 +1,28 @@
+Lemma: rev (xs ++ rev ys) .=. ys ++ rev xs
+
+Proof by induction on List xs
+
+Case [] -- Base case
+  Show: rev ([] ++ rev ys) .=. ys ++ rev []
+  Proof
+                            rev ([] ++ rev ys)
+    (by def ++)         .=. rev (rev ys)
+    (by rev_rev)        .=. ys
+    (by app_Nil)        .=. ys ++ []
+    (by def rev)        .=. ys ++ rev []
+  QED
+
+Case z:zs -- Step case
+  Fix z, zs
+  Assume
+    IH: rev (zs ++ rev ys) .=. ys ++ rev zs
+  Then Show: rev ((z : zs) ++ rev ys) .=. ys ++ rev (z : zs)
+  Proof
+                              rev ((z : zs) ++ rev ys)
+    (by def ++)           .=. rev (z : (zs ++ rev ys))
+    (by def rev)          .=. rev (zs ++ rev ys) ++ [z]
+    (by IH)               .=. (ys ++ rev zs) ++ [z]
+    (by app_assoc)        .=. ys ++ (rev zs ++ [z])
+    (by def rev)          .=. ys ++ rev (z : zs)
+  QED
+QED

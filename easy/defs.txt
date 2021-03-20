@@ -1,0 +1,13 @@
+data List a = [] | a : List a
+
+rev []     = []
+rev (x:xs) = rev xs ++ [x]
+
+(++) [] ys = ys
+(++) (x:xs) ys = x : (xs ++ ys)
+
+axiom rev_rev: rev (rev xs) .=. xs
+axiom app_Nil: xs ++ [] .=. xs
+axiom app_assoc: (xs ++ ys) ++ zs .=. xs ++ (ys ++ zs)
+
+goal rev (xs ++ rev ys) .=. ys ++ rev xs
