@@ -1,0 +1,8 @@
+data Tree t = Leaf | Node t (Tree t) (Tree t)
+
+mapTree f Leaf = Leaf
+mapTree f (Node x t1 t2) = Node (f x) (mapTree f t1) (mapTree f t2)
+
+(.) f g x = f (g x)
+
+goal mapTree g (mapTree f x) .=. mapTree (g . f) x

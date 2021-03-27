@@ -1,0 +1,29 @@
+Lemma mapTree_comp: mapTree g (mapTree f t) .=. mapTree (g . f) t
+
+Proof by induction on Tree t
+
+Case Leaf -- Base case
+  Show: mapTree g (mapTree f Leaf) .=. mapTree (g . f) Leaf
+  Proof
+                                mapTree g (mapTree f Leaf)
+    (by def mapTree)        .=. mapTree g Leaf
+    (by def mapTree)        .=. Leaf
+    (by def mapTree)        .=. mapTree (g . f) Leaf
+  QED
+  
+Case Node n l r
+  Fix n, l, r
+  Assume 
+    IH1: mapTree g (mapTree f l) .=. mapTree (g . f) l
+    IH2: mapTree g (mapTree f r) .=. mapTree (g . f) r
+  Then Show: mapTree g (mapTree f (Node n l r)) .=. mapTree (g . f) (Node n l r)
+  Proof
+                                mapTree g (mapTree f (Node n l r))
+    (by def mapTree)        .=. mapTree g (Node (f n) (mapTree f l) (mapTree f r))
+    (by def mapTree)        .=. Node (g (f n)) (mapTree g (mapTree f l)) (mapTree g (mapTree f r))
+    (by def .)              .=. Node ((g . f) n) (mapTree g (mapTree f l)) (mapTree g (mapTree f r))
+    (by IH1)                .=. Node ((g . f) n) (mapTree (g . f) l) (mapTree g (mapTree f r))
+    (by IH2)                .=. Node ((g . f) n) (mapTree (g . f) l) (mapTree (g . f) r)
+    (by def mapTree)        .=. mapTree (g . f) (Node n l r)
+  QED
+QED
