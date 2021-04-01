@@ -1,0 +1,40 @@
+Lemma sumN: sum (toList t) + n .=. addSum t n
+
+Proof by induction on Tree t generalizing n
+Case Leaf x -- Base case
+  For fixed n
+  Show: sum (toList (Leaf x)) + n .=. addSum (Leaf x) n
+  Proof
+                            sum (toList (Leaf x)) + n
+    (by def toList)     .=. sum ([x]) + n
+    (by def sum)        .=. x + sum [] + n
+    (by def sum)        .=. x + 0 + n
+    (by arith)          .=. x + n
+    (by def addSum)     .=. addSum (Leaf x) n
+  QED
+  
+  Case Node l r 
+  Fix l, r
+  Assume 
+    IH1: forall n: sum (toList l) + n .=. addSum l n
+    IH2: forall n: sum (toList r) + n .=. addSum r n
+  Then For fixed n
+  Show: sum (toList (Node l r)) + n .=. addSum (Node l r) n
+  Proof
+                                sum (toList (Node l r)) + n
+    (by def toList)         .=. sum (toList l ++ toList r) + n
+    (by sumAppend)          .=. (sum (toList l) + sum (toList r)) + n
+    (by arith)              .=. sum (toList l) + (sum (toList r) + n)
+    (by IH2)                .=. sum (toList l) + addSum r n
+    (by IH1)                .=. addSum l (addSum r n)
+    (by def addSum)         .=. addSum (Node l r) n                            
+  QED
+QED
+
+Lemma: sum (toList t) .=. addSum t 0
+
+Proof
+                      sum (toList t)
+  (by arith)      .=. sum (toList t) + 0
+  (by sumN)       .=. addSum t 0
+QED

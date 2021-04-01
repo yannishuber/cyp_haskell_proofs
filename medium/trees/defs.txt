@@ -1,0 +1,19 @@
+data Tree = Node Tree Tree | Leaf Int
+
+addSum (Leaf x)   n = x + n
+addSum (Node l r) n = addSum l (addSum r n)
+
+toList (Leaf x)     = [x]
+toList (Node l r)   = toList l ++ toList r
+
+sum []      = 0
+sum (x:xs)  = x + sum xs
+
+[]  ++ ys       = ys
+(x:xs) ++ ys    = x : (xs ++ ys) 
+
+axiom arith: b + 0 .=. b
+axiom arith: (a + b) + c .=. a + (b + c)
+axiom sumAppend: sum (xs ++ ys) .=. sum xs + sum ys
+
+goal sum (toList t) .=. addSum t 0
